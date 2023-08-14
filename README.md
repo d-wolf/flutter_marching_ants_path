@@ -10,3 +10,7 @@ Demonstrates how to draw an animated dashed line using a CustomPaint.
 4. Call `flutter run` in the [Project Folder](/).
 
 ## Demo
+
+
+https://github.com/d-wolf/flutter_marching_ants_path/assets/3867384/66cf0022-05fe-48dc-a2b8-bdcd9843455d
+
