@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:math' as math;
 
 class DashedLinePainter extends CustomPainter {
   final List<Offset> points;
@@ -20,11 +21,25 @@ class DashedLinePainter extends CustomPainter {
       ..style = PaintingStyle.stroke;
 
     final p = Path();
-    p.moveTo(points.first.dx, points.first.dy);
+
+    var aX = points.first.dx;
+    var aY = points.first.dy;
+    p.moveTo(aX, aY);
 
     for (var i = 1; i < points.length; i++) {
-      p.lineTo(points[i].dx, points[i].dy);
-      p.moveTo(points[i].dx, points[i].dy);
+      var bX = points[i].dx;
+      var bY = points[i].dy;
+
+      final lenAB = math.sqrt(math.pow(aX - bX, 2.0) + math.pow(aY - bY, 2.0));
+      final bxExt = bX + (bX - aX) / lenAB * (strokeWidth / 2);
+      final byExt = bY + (bY - aY) / lenAB * (strokeWidth / 2);
+
+      // extend line by (strokewidth / 2) to overlap ends
+      p.lineTo(bxExt, byExt);
+      p.moveTo(bX, bY);
+
+      aX = bX;
+      aY = bY;
     }
 
     p.close();
