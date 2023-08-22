@@ -51,7 +51,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 final r = Rect.fromLTWH(
                     0, 0, constraints.maxWidth, constraints.maxHeight);
 
-                return DashedLineWidget(
+                return MarchingAntsPathWidget(
                   points: [
                     r.topLeft,
                     r.topRight,

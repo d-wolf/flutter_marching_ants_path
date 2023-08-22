@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dashed_path_painter.dart';
 
-class DashedLineWidget extends StatefulWidget {
+class MarchingAntsPathWidget extends StatefulWidget {
   final List<Offset> points;
   final Duration duration;
   final double dashWidth;
@@ -9,7 +9,7 @@ class DashedLineWidget extends StatefulWidget {
   final double strokeWidth;
   final Color strokeColor;
 
-  const DashedLineWidget(
+  const MarchingAntsPathWidget(
       {required this.points,
       this.dashWidth = 10.0,
       this.dashSpace = 5.0,
@@ -19,10 +19,10 @@ class DashedLineWidget extends StatefulWidget {
       super.key});
 
   @override
-  State<DashedLineWidget> createState() => _DashedLineWidgetState();
+  State<MarchingAntsPathWidget> createState() => _MarchingAntsPathWidgetState();
 }
 
-class _DashedLineWidgetState extends State<DashedLineWidget>
+class _MarchingAntsPathWidgetState extends State<MarchingAntsPathWidget>
     with SingleTickerProviderStateMixin {
   late final Animation<double> _animation;
   late final AnimationController _controller;
