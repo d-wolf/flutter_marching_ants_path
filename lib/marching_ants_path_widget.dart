@@ -23,29 +23,14 @@ class DashedLineWidget extends StatefulWidget {
 }
 
 class _DashedLineWidgetState extends State<DashedLineWidget>
-    with TickerProviderStateMixin {
-  Animation<double>? _animation;
-  AnimationController? _controller;
-  Tween<double>? _tween;
+    with SingleTickerProviderStateMixin {
+  late final Animation<double> _animation;
+  late final AnimationController _controller;
+  late final Tween<double> _tween;
 
   @override
   void initState() {
     super.initState();
-    _updateAnimation();
-  }
-
-  @override
-  void dispose() {
-    _controller?.dispose();
-    super.dispose();
-  }
-
-  bool _hasChanged() =>
-      _tween?.end != widget.dashWidth + widget.dashSpace ||
-      _controller?.duration != widget.duration;
-
-  void _updateAnimation() {
-    _controller?.dispose();
 
     _tween =
         Tween<double>(begin: 0.0, end: widget.dashWidth + widget.dashSpace);
@@ -55,19 +40,34 @@ class _DashedLineWidgetState extends State<DashedLineWidget>
       duration: widget.duration,
     );
 
-    _animation = _tween!.animate(_controller!)
+    _animation = _tween.animate(_controller)
       ..addListener(() {
         setState(() {});
       })
       ..addStatusListener((status) {
         if (status == AnimationStatus.completed) {
-          _controller?.reset();
+          _controller.reset();
         } else if (status == AnimationStatus.dismissed) {
-          _controller?.forward();
+          _controller.forward();
         }
       });
 
-    _controller?.forward();
+    _controller.forward();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  bool _hasChanged() =>
+      _tween.end != widget.dashWidth + widget.dashSpace ||
+      _controller.duration != widget.duration;
+
+  void _updateAnimation() {
+    _controller.duration = widget.duration;
+    _tween.end = widget.dashWidth + widget.dashSpace;
   }
 
   @override
@@ -79,7 +79,7 @@ class _DashedLineWidgetState extends State<DashedLineWidget>
     return CustomPaint(
       painter: DashedPathPainter(
         widget.points,
-        _animation?.value ?? 0,
+        _animation.value,
         widget.dashWidth,
         widget.dashSpace,
         widget.strokeColor,
