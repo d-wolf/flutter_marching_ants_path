@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
-class DashedLinePainter extends CustomPainter {
+class DashedPathPainter extends CustomPainter {
   final List<Offset> points;
   final double offset;
   final double dashWidth;
@@ -9,7 +9,7 @@ class DashedLinePainter extends CustomPainter {
   final Color color;
   final double strokeWidth;
 
-  DashedLinePainter(this.points, this.offset, this.dashWidth, this.dashSpace,
+  DashedPathPainter(this.points, this.offset, this.dashWidth, this.dashSpace,
       this.color, this.strokeWidth)
       : assert(points.length > 1, 'At least two points are needed.');
 
@@ -56,7 +56,7 @@ class DashedLinePainter extends CustomPainter {
     for (final metric in source.computeMetrics()) {
       var distance = offset;
       var draw = true;
-      for (int i = 0; distance < metric.length; i = (i + 1) % dash.length) {
+      for (var i = 0; distance < metric.length; i = (i + 1) % dash.length) {
         final len = dash[i];
         if (draw) {
           dest.addPath(

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'path_painter.dart';
+import 'dashed_path_painter.dart';
 
 class DashedLineWidget extends StatefulWidget {
   final List<Offset> points;
@@ -31,28 +31,7 @@ class _DashedLineWidgetState extends State<DashedLineWidget>
   @override
   void initState() {
     super.initState();
-
-    _tween =
-        Tween<double>(begin: 0.0, end: widget.dashWidth + widget.dashSpace);
-
-    _controller = AnimationController(
-      vsync: this,
-      duration: widget.duration,
-    );
-
-    _animation = _tween!.animate(_controller!)
-      ..addListener(() {
-        setState(() {});
-      })
-      ..addStatusListener((status) {
-        if (status == AnimationStatus.completed) {
-          _controller?.reset();
-        } else if (status == AnimationStatus.dismissed) {
-          _controller?.forward();
-        }
-      });
-
-    _controller?.forward();
+    _updateAnimation();
   }
 
   @override
@@ -98,7 +77,7 @@ class _DashedLineWidgetState extends State<DashedLineWidget>
     }
 
     return CustomPaint(
-      painter: DashedLinePainter(
+      painter: DashedPathPainter(
         widget.points,
         _animation?.value ?? 0,
         widget.dashWidth,
